@@ -30,8 +30,7 @@ CNetServerProcess *netserverProcess;
 
 static PollerBase* workerThread;
 
-CTransactionGroup* FullDBGroup = NULL;
-CTransactionGroup* HotDBGroup = NULL;
+CTransactionGroup* shardingsphere_group = NULL;
 
 static int start_main_thread()
 {
@@ -141,11 +140,11 @@ void register_signal()
 	signal(SIGPIPE, SIG_IGN);
 }
 
-int start_db_thread_group(DBHost* dbconfig, std::string level)
+int start_db_thread_group(DBHost* dbconfig)
 {
 	const int thread_num  = g_config.GetIntValue("TransThreadNum", 10);
 	CTransactionGroup* group = NULL;
-	log4cplus_debug("transaction thread count:%d, level:%s", thread_num, level.c_str());
+	log4cplus_debug("transaction thread count:%d", thread_num);
 
 	group = new CTransactionGroup(thread_num);
 	if(group->Initialize(dbconfig))
@@ -154,13 +153,7 @@ int start_db_thread_group(DBHost* dbconfig, std::string level)
 		return -1;
 	}
 
-	if(level == "L3")
-		FullDBGroup = group;
-	else if(level == "L2")
-		HotDBGroup = group;
-	else
-		return -2;
-
+	shardingsphere_group = group;
 	group->RunningThread();
 
 	return 0;
@@ -183,16 +176,8 @@ int main(int argc, char* argv[])
 
 	cm_create_pid();
 
-	//full database instance.
-	int res = start_db_thread_group(&g_config.full_instance, "L3");
-	if(res != 0)
-	{
-		log4cplus_error("start fulldb thread group faield, exit. %d", res);
-		return -1;
-	}
-
-	//hot database instance.
-	res = start_db_thread_group(&g_config.hot_instance, "L2");
+	//shardingsphere database instance.
+	int res = start_db_thread_group(&g_config.shardingsphere);
 	if(res != 0)
 	{
 		log4cplus_error("start hotdb thread group faield, exit. %d", res);

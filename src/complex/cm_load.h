@@ -17,8 +17,7 @@ private:
 	YAML::Node dtc;
 
 public:
-	DBHost hot_instance;
-	DBHost full_instance;
+	DBHost shardingsphere;
 
 public:
 	ConfigHelper ();
@@ -31,7 +30,6 @@ public:
 	bool load_dtc_config();
 	
 	bool load_hot_inst_info();
-	bool load_full_inst_info();
 };
 
 #endif

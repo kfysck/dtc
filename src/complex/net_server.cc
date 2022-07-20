@@ -11,8 +11,7 @@
 #include "task_request.h"
 #include "transaction_group.h"
 
-extern CTransactionGroup* FullDBGroup;
-extern CTransactionGroup* HotDBGroup;
+extern CTransactionGroup* shardingsphere_group;
 
 CNetServerProcess::CNetServerProcess(PollerBase * o) :
     CTaskDispatcher<CTaskRequest>(o),
@@ -40,17 +39,7 @@ void CNetServerProcess::TaskNotify(CTaskRequest * cur)
 	//TODO: Parsing input, adapting thread groups.
 	level = request->get_db_layer_level();
 	log4cplus_debug("complex: packet db layer:%d.", level);
-	if(level == 3)
-		group = FullDBGroup;
-	else if(level == 2)
-		group = HotDBGroup;
-	else 
-	{
-		char err[260] = {0};
-		sprintf(err, "layer level error:%d.", level);
-		request->setResult(err);
-		request->ReplyNotify();
-	}
+	group = shardingsphere_group;
 	
 	if(group->Push(request) != 0)
 	{

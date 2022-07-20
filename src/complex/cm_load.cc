@@ -94,12 +94,6 @@ bool ConfigHelper::load_dtc_config()
 		return false;
 	}
 	
-	if(!load_full_inst_info())
-	{
-		log4cplus_error("load full database config error");
-		return false;
-	}
-
 	if(!load_hot_inst_info())
 	{
 		log4cplus_error("load hot db config error");
@@ -111,7 +105,7 @@ bool ConfigHelper::load_dtc_config()
 
 bool ConfigHelper::load_hot_inst_info()
 {
-	memset(&hot_instance, 0, sizeof(DBHost));
+	memset(&shardingsphere, 0, sizeof(DBHost));
 
 	if(!dtc["vhot"])
 		return false;
@@ -125,59 +119,23 @@ bool ConfigHelper::load_hot_inst_info()
 	const char* addr = dtc["vhot"]["addr"].as<string>().c_str();
 	const char* p = strrchr(addr, ':');
 	if(p == NULL){
-		strncpy(hot_instance.Host, addr, sizeof(hot_instance.Host)-1 );
-		hot_instance.Port = 0;
+		strncpy(shardingsphere.Host, addr, sizeof(shardingsphere.Host)-1 );
+		shardingsphere.Port = 0;
 	}
 	else{
-		strncpy(hot_instance.Host, addr, MIN(p - addr, (int)sizeof(hot_instance.Host)-1) );
-		hot_instance.Port = atoi(p+1);
+		strncpy(shardingsphere.Host, addr, MIN(p - addr, (int)sizeof(shardingsphere.Host)-1) );
+		shardingsphere.Port = atoi(p+1);
 	}
 	
-	strncpy(hot_instance.User, dtc["vhot"]["username"].as<string>().c_str(), sizeof(hot_instance.User)-1 );
-	strncpy(hot_instance.Password, dtc["vhot"]["password"].as<string>().c_str(), sizeof(hot_instance.Password)-1 );
-	strncpy(hot_instance.DbName, dtc["vhot"]["database"].as<string>().c_str(), sizeof(hot_instance.DbName)-1 );
+	strncpy(shardingsphere.User, dtc["vhot"]["username"].as<string>().c_str(), sizeof(shardingsphere.User)-1 );
+	strncpy(shardingsphere.Password, dtc["vhot"]["password"].as<string>().c_str(), sizeof(shardingsphere.Password)-1 );
+	strncpy(shardingsphere.DbName, dtc["vhot"]["database"].as<string>().c_str(), sizeof(shardingsphere.DbName)-1 );
 	
-	hot_instance.ConnTimeout = 10;
-	hot_instance.ReadTimeout = 10;
+	shardingsphere.ConnTimeout = 10;
+	shardingsphere.ReadTimeout = 10;
 
-	log4cplus_debug("hot Host:%s:%d, user:%s, pwd:%s, db:%s",
-		hot_instance.Host, hot_instance.Port, hot_instance.User, hot_instance.Password, hot_instance.DbName);
-	return true;
-}
-
-bool ConfigHelper::load_full_inst_info()
-{
-	memset(&full_instance, 0, sizeof(DBHost));
-
-	if(!table["COLD_MACHINE1"] || !table["DATABASE_CONF"])
-		return false;
-
-	if( !table["COLD_MACHINE1"]["database_address"] || 
-		!table["COLD_MACHINE1"]["database_username"] ||
-		!table["COLD_MACHINE1"]["database_password"] ||
-		!table["DATABASE_CONF"]["cold_database_name"])
-		return false;
-
-	const char* addr = table["COLD_MACHINE1"]["database_address"].as<string>().c_str();
-	const char* p = strrchr(addr, ':');
-	if(p == NULL){
-		strncpy(full_instance.Host, addr, sizeof(full_instance.Host)-1 );
-		full_instance.Port = 3358;
-	}
-	else{
-		strncpy(full_instance.Host, addr, MIN(p - addr, (int)sizeof(full_instance.Host)-1) );
-		full_instance.Port = atoi(p+1);
-	}
-
-	strncpy(full_instance.User, table["COLD_MACHINE1"]["database_username"].as<string>().c_str(), sizeof(full_instance.User)-1 );
-	strncpy(full_instance.Password, table["COLD_MACHINE1"]["database_password"].as<string>().c_str(), sizeof(full_instance.Password)-1 );
-	strncpy(full_instance.DbName, table["DATABASE_CONF"]["cold_database_name"].as<string>().c_str(), sizeof(full_instance.DbName)-1 );
-
-	full_instance.ConnTimeout = 10;
-	full_instance.ReadTimeout = 10;
-	log4cplus_debug("full_instance:%s:%d, user:%s, pwd:%s, db:%s", full_instance.Host, full_instance.Port, full_instance.User,
-	full_instance.Password, full_instance.DbName);
-
+	log4cplus_debug("shardingsphere Host:%s:%d, user:%s, pwd:%s, db:%s",
+		shardingsphere.Host, shardingsphere.Port, shardingsphere.User, shardingsphere.Password, shardingsphere.DbName);
 	return true;
 }
 
