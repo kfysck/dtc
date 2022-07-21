@@ -9,10 +9,11 @@ vhot:
    username: root
    password: root
    database: sharding
+LogicalDB:
+   HotDBName: 'HOT'
+   ColdDBName: 'COLD'
 data_lifecycle:
    SingleQueryCount: 10
    DataSQLRule: 'status = 0'
    OperateTimeRule: '00 01 * * * ?'
    LifeCycleTableName: 'data_lifecycle_table'
-   HotDBName: 'HOT'
-   ColdDBName: 'COLD'

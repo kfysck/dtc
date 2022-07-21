@@ -126,13 +126,13 @@ int DataConf::ParseConfig(ConfigParam& config_param){
     }
     config_param.life_cycle_table_name_ = life_cycle_table_name;
 
-     const char* hot_db_name = g_dtc_config->get_str_val("data_lifecycle", "HotDBName");
+     const char* hot_db_name = g_dtc_config->get_str_val("LogicalDB", "HotDBName");
     if(NULL == hot_db_name){
         hot_db_name = "L2";
     }
     config_param.hot_db_name_ = hot_db_name;
 
-     const char* cold_db_name = g_dtc_config->get_str_val("data_lifecycle", "ColdDBName");
+     const char* cold_db_name = g_dtc_config->get_str_val("LogicalDB", "ColdDBName");
     if(NULL == cold_db_name){
         cold_db_name = "L3";
     }
