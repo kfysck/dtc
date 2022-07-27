@@ -359,15 +359,18 @@ int re_match_sql(hsql::SQLParserResult* sql_ast, vector<vector<hsql::Expr*> > ex
     }
 
     schema = get_schema(sql_ast);
-    if(schema == std::string(SPECIFIC_L1_SCHEMA) || schema == std::string(SPECIFIC_L2_SCHEMA))
+    if(schema != "")
     {
-        ret = 0;
-        goto RESULT;
-    }
-    else if(schema == std::string(SPECIFIC_L3_SCHEMA))
-    {
-        ret = 3;
-        goto RESULT;
+        if(schema == std::string(SPECIFIC_L1_SCHEMA) || schema == std::string(SPECIFIC_L2_SCHEMA))
+        {
+            ret = 0;
+            goto RESULT;
+        }
+        else
+        {
+            ret = 3;
+            goto RESULT;
+        }
     }
 
     if(is_insert_type(sql_ast))
