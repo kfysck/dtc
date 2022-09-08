@@ -757,7 +757,13 @@ int TransactionTask::request_db_query(std::string request_sql, CTaskRequest *req
 
 	if(m_Sql.find("insert into") == 0 || m_Sql.find("update ") == 0 || m_Sql.find("delete from ") == 0)
 	{
+		log4cplus_debug("query cmd write.");
 		request->cmd = QUERY_CMD_WRITE;
+	}
+	else if(m_Sql.find("kill query") == 0)
+	{
+		log4cplus_debug("query kill query.");
+		request->cmd = QUERY_CMD_KILL_QUERY;
 	}
 	else
 	{
@@ -776,6 +782,14 @@ int TransactionTask::request_db_query(std::string request_sql, CTaskRequest *req
 			log4cplus_debug("query result.");
 			request->cmd = QUERY_CMD_NORMAL;
 		}
+	}
+
+	if(request->cmd == QUERY_CMD_KILL_QUERY)
+	{
+		CBufferChain* rb = encode_mysql_ok(request, 0);
+		if(rb)
+			request->set_buffer_chain(rb);
+		return 0;
 	}
   
 	int ret = 0;

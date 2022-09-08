@@ -57,7 +57,8 @@ typedef enum _QUERY_CMD{
 	QUERY_CMD_NORMAL = 0,
 	QUERY_CMD_SHOW_TABLES,
 	QUERY_CMD_WRITE,
-	QUERY_CMD_SHOW_DB
+	QUERY_CMD_SHOW_DB,
+	QUERY_CMD_KILL_QUERY
 } QUERY_CMD;
 
 class CTaskRequest:public CTaskReplyList<CTaskRequest, 10>, public CTaskOwnerInfo

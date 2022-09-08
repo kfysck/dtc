@@ -111,13 +111,19 @@ extern "C" int rule_sql_match(const char* szsql, const char* dbname, const char*
     {
         return 3;
     }
-
+log4cplus_debug("44444444444444");
     if(sql == "SHOW TABLES")
     {
         if(dbname == NULL || strlen(dbname) == 0)
             return -6;
         else
             return 2;
+    }
+log4cplus_debug("44444444444444:%d", sql.find("KILL QUERY"));
+    if(sql.find("KILL QUERY") != sql.npos)
+    {
+        log4cplus_debug("found kill query");
+        return -1;
     }
 
     log4cplus_debug("#############dbname:%s", dbname);
