@@ -863,7 +863,7 @@ int TransactionTask::request_db_query(std::string request_sql, CTaskRequest *req
 }
 
 int TransactionTask::Process(CTaskRequest *request) {
-	log4cplus_debug("async-connector: pop task process begin.");
+	log4cplus_debug("async-conn: pop task process begin.");
 
 	string request_sql = request->parse_request_sql();
 	log4cplus_debug("pop sql: len:%d,  %s", request_sql.length(), request_sql.c_str());
@@ -878,6 +878,6 @@ int TransactionTask::Process(CTaskRequest *request) {
 
 	int ret = request_db_query(request_sql, request);
 
-	log4cplus_debug("async-connector: pop task process end.");
+	log4cplus_debug("async-conn: pop task process end.");
 	return 0;
 }
