@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       dtc:
-        image: docker.io/kfysck/devel:all
+        image: env.secret_account
         ports:
           - 20015:20015
         volumes:
