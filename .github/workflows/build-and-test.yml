@@ -98,7 +98,7 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       dtc:
-        image: echo "docker.io/kfysck/devel:all"
+        image: echo "docker.io/${{ secrets.DOCKER_USERNAME }}/devel:all"
         ports:
           - 20015:20015
         volumes:
