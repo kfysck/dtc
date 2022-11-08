@@ -13,7 +13,7 @@ jobs:
   prepare-image:
     runs-on: ubuntu-20.04
     outputs:
-      image: ${{ env.MAVEN_VERSION }}
+      run: echo "aofewaokfew"
     steps:
     - name: Echo output
       run: echo ${{ needs.prepare-image.outputs.dockerpath }}
