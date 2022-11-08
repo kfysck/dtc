@@ -7,14 +7,20 @@ env:
   CXX: g++-4.9
   secret_account: ${{ secrets.DOCKER_USERNAME }}
   sec: hello
+  MAVEN_VERSION: dockerpath:abc
 
 jobs:      
+  prepare-image:
+    runs-on: ubuntu-20.04
+    outputs:
+      image: ${{ env.MAVEN_VERSION }}
+
 # Testing Cache Only
   test-abc:
     runs-on: ubuntu-20.04
     services:
       dtc:
-        image: echo "${{name}}"
+        image: ${{ needs.prepare-image.outputs.maven }}
         ports:
           - 20015:20015
         volumes:
