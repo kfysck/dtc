@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       dtc:
-        image: ${{ env.dockerpath }}
+        image: ${{github.env.dockerpath}}
         ports:
           - 20015:20015
         volumes:
