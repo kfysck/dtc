@@ -33,9 +33,9 @@ jobs:
   test-abc:
     runs-on: ubuntu-20.04
     needs: job1
-    #services:
-    #  dtc:
-    #    image: ${{ needs.prepare-image.outputs.dockerpath }}
+    services:
+      dtc:
+        image: ${{needs.job1.outputs.output1}}
     steps:
       - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
           
