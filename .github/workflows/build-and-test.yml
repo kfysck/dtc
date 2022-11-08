@@ -24,6 +24,7 @@ jobs:
       - name: Install dependency
         run: |
           sudo apt-get install -y make zlib1g zlib1g-dev bzip2 liblz4-dev libasan0 openssl libmxml-dev wget
+          echo "dockerpath=docker.io/${{ secrets.DOCKER_USERNAME }}/devel:all" >> $GITHUB_ENV
 
       - name: update hsql
         run: |
