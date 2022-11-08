@@ -21,7 +21,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      output1: kfysck/devel
+      output1: kfysck
       output2: ${{ steps.step2.outputs.test }}
     steps:
       - id: step1
