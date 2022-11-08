@@ -16,7 +16,7 @@ jobs:
       run: echo "aofewaokfew"
     steps:
     - name: Echo output
-      run: echo ${{ needs.prepare-image.outputs.dockerpath }}
+      run: echo ${{ needs.prepare-image.outputs }}
 
 # Testing Cache Only
   test-abc:
