@@ -17,15 +17,25 @@ jobs:
     steps:
     - name: Echo output
       run: echo ${{ needs.prepare-image.outputs }}
+      
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{ steps.step1.outputs.test }}
+      output2: ${{ steps.step2.outputs.test }}
+    steps:
+      - id: step1
+        run: echo "test=hello" >> $GITHUB_OUTPUT
+      - id: step2
+        run: echo "test=world" >> $GITHUB_OUTPUT      
 
 # Testing Cache Only
   test-abc:
     runs-on: ubuntu-20.04
-    needs: [prepare-image]
-    services:
-      dtc:
-        image: ${{ needs.prepare-image.outputs.dockerpath }}
+    needs: job1
+    #services:
+    #  dtc:
+    #    image: ${{ needs.prepare-image.outputs.dockerpath }}
     steps:
-      - name: Echo output
-        run: echo ${{ needs.prepare-image.outputs.dockerpath }}
+      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
           
