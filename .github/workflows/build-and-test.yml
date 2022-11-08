@@ -21,7 +21,7 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     outputs:
-      output1: docker.io/kfysck/devel:all
+      output1: dockeriokfysckdevelall
       output2: ${{ steps.step2.outputs.test }}
     steps:
       - id: step1
