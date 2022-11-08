@@ -16,7 +16,7 @@ jobs:
       image: ${{ env.MAVEN_VERSION }}
     steps:
     - name: Echo output
-      run: echo ${{ needs.prepare-image.outputs.maven }}
+      run: echo ${{ needs.prepare-image.outputs.dockerpath }}
 
 # Testing Cache Only
   test-abc:
