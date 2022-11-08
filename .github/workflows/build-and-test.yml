@@ -18,6 +18,7 @@ jobs:
 # Testing Cache Only
   test-abc:
     runs-on: ubuntu-20.04
+    needs: [prepare-image]
     services:
       dtc:
         image: ${{ needs.prepare-image.outputs.maven }}
