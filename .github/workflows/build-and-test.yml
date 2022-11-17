@@ -146,13 +146,12 @@ jobs:
     needs: AGENT
     runs-on: ubuntu-20.04
     services:
+      redis:
+        image: redis
       dtc:
         image: docker.io/kfysck/devel:all
-        ports:
-          - 20015:20015
         volumes:
           - /usr/local/etc:/usr/local/dtc/conf/
-        options: --name dtc
         env:
           DTC_BIN: agent-watchdog
           DTC_ARGV: -c        
