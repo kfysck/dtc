@@ -198,6 +198,7 @@ jobs:
           sleep 5s
           docker ps -a
           netstat -ntpl
+          telnet redis 6379
           docker logs agent
           docker logs dtc
           cd ${{github.workspace}}/tests
