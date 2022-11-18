@@ -13,9 +13,11 @@ do
         cp /usr/local/etc/conf/log4cplus-async.conf /usr/local/dtc/conf/
         cp /usr/local/etc/conf/log4cplus-life.conf /usr/local/dtc/conf/
         cp /usr/local/etc/conf/my.conf /usr/local/dtc/conf/
-        netstat -ntpl
-        telnet mysql 3306
         echo "Start running process: "$DTC_BIN","$DTC_ARGV
+        if [ $DTC_ARGV == "-a" ]; then
+            echo "sleeping for agent"
+            sleep 5
+        fi
         cd /usr/local/dtc/bin/
         ./$DTC_BIN $DTC_ARGV
         break
