@@ -9,6 +9,8 @@ do
         if [ $DTC_ARGV == "-a" ]; then
             echo "sleeping for agent"
             sleep 5
+            ping -c 3 dtcd
+            telnet dtcd 20015
         fi
         cd /usr/local/dtc/bin/
         ./$DTC_BIN $DTC_ARGV
