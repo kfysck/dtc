@@ -150,10 +150,11 @@ jobs:
         image: mysql:5.7
         env: 
           MYSQL_ROOT_PASSWORD: 123456
-      dtc:
+      dtcd:
         image: docker.io/kfysck/devel:all
         volumes:
           - /usr/local/etc:/usr/local/dtc/conf/
+        options: --name dtcd
         env:
           DTC_BIN: agent-watchdog
           DTC_ARGV: -c        

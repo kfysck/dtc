@@ -16,6 +16,7 @@ do
         echo "Start running process: "$DTC_BIN","$DTC_ARGV
         if [ $DTC_ARGV == "-a" ]; then
             echo "sleeping for agent"
+            telnet dtcd 20015
             sleep 5
         fi
         cd /usr/local/dtc/bin/
