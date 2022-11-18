@@ -146,11 +146,10 @@ jobs:
     needs: AGENT
     runs-on: ubuntu-20.04
     services:
-      redis:
-        image: redis
-        ports:
-          - 6379:6379
-        options: --name redis
+      mysql:
+        image: mysql:5.7
+        env: 
+          MYSQL_ROOT_PASSWORD: 123456
       dtc:
         image: docker.io/kfysck/devel:all
         volumes:
@@ -201,7 +200,6 @@ jobs:
           sleep 5s
           docker ps -a
           netstat -ntpl
-          telnet redis 6379
           docker logs agent
           docker logs dtc
           cd ${{github.workspace}}/tests
@@ -289,6 +287,8 @@ jobs:
     services:
       mysql:
         image: mysql:5.7
+        ports:
+          - 3306:3306
         env: 
           MYSQL_ROOT_PASSWORD: 123456
       dtc:

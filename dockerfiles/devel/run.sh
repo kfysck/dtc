@@ -13,6 +13,8 @@ do
         cp /usr/local/dtc/conf/log4cplus-async.conf /usr/local/dtc/conf/
         cp /usr/local/dtc/conf/log4cplus-life.conf /usr/local/dtc/conf/
         cp /usr/local/dtc/conf/my.conf /usr/local/dtc/conf/
+        netstat -ntpl
+        telnet mysql 3306
         echo "Start running process: "$DTC_BIN","$DTC_ARGV
         cd /usr/local/dtc/bin/
         ./$DTC_BIN $DTC_ARGV
