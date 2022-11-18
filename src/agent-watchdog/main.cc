@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <getopt.h>
 #include <signal.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 
 #include "log.h"
 #include "sharding_entry.h"
@@ -301,13 +305,27 @@ bool ParseAgentConf(std::string path){
     return true;
 }
 
+void get_ip(const char *domain, char*ip)
+{
+	struct hostent *host = gethostbyname(domain);
+	if (host == NULL)
+		return;
+	for (int i = 0; host->h_addr_list[i]; i++)
+	{
+		strcpy(ip, inet_ntoa(*(struct in_addr*)host->h_addr_list[i]));
+		break;
+	}
+}
+
 std::string send_select_dtcyaml(const char* serverIp, int port)
 {
-	log4cplus_debug("server ip:%s, port:%d", serverIp, port);
+	char szip[100] = {0};
+	get_ip(serverIp, szip);
+	log4cplus_debug("server ip:%s, port:%d", szip, port);
     sockaddr_in sendSockAddr;   
     bzero((char*)&sendSockAddr, sizeof(sendSockAddr)); 
     sendSockAddr.sin_family = AF_INET; 
-    sendSockAddr.sin_addr.s_addr = inet_addr(serverIp);
+    sendSockAddr.sin_addr.s_addr = inet_addr(szip);
     sendSockAddr.sin_port = htons(port);
     int clientSd = socket(AF_INET, SOCK_STREAM, 0);
     int status = connect(clientSd,
