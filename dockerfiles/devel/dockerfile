@@ -27,7 +27,7 @@ COPY libsqlparser.so /usr/local/lib/libsqlparser.so
 COPY libdtcapi.so /usr/local/lib/libdtcapi.so
 
 RUN apt update
-RUN apt install -y iputils-ping net-tools wget default-jre
+RUN apt install -y iputils-ping net-tools wget default-jre telnet
 
 RUN wget "https://storage.jd.com/bq-install/shardingsphere/sharding-851d4a.tgz" -O $basepath/sharding.tar.gz
 RUN tar -zxvf $basepath/sharding.tar.gz -C $basepath
