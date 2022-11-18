@@ -202,7 +202,7 @@ jobs:
           docker ps -a
           netstat -ntpl
           docker logs agent
-          docker logs dtc
+          docker logs dtcd
           cd ${{github.workspace}}/tests
           pytest test_agent_cache_only.py               
 
